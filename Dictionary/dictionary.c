@@ -18,6 +18,10 @@ int search(Dictionary * a, int element);
 int findPredecessorIndex(Dictionary * a, int element);
 void increaseSize(Dictionary * a);
 void decreaseSize(Dictionary * a);
+void insert(Dictionary * a, int element);
+void delete(Dictionary * a, int element);
+Dictionary * merge(Dictionary * a, Dictionary * b);
+void split(Dictionary * c, int element, Dictionary ** a, Dictionary ** b);
 //INSERT
 //void delete(Dictionary * a, int element);
 //Dictionary * mergeDictionary(Dictionary * a, Dictionary * b);

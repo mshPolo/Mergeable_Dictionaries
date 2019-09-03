@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "Test/test.c"
+//#include "Test/test.c"
+#include "Test/test.h"
 //#include "Dictionary/dictionary.c"
 
 int main() {

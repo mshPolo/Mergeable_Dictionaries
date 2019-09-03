@@ -2,15 +2,27 @@
 // Created by Marcus Skov Hansen on 2019-08-28.
 //
 
-#include "Dictionary.c"
+//#include "Dictionary.c"
 
 #ifndef UNTITLED_Dictionary_H
 #define UNTITLED_Dictionary_H
 
-Dictionary * newList(int size);
-void insertDictionary(Dictionary * list, int element);
+typedef struct {
+    int * list;
+    int size;
+    int used;
+}Dictionary;
+
+void freeDictionary(Dictionary * a);
+Dictionary * newDictionary(int size);
+int search(Dictionary * a, int element);
+int findPredecessorIndex(Dictionary * a, int element);
+void increaseSize(Dictionary * a);
+void decreaseSize(Dictionary * a);
+void insert(Dictionary * a, int element);
+void delete(Dictionary * a, int element);
+Dictionary * merge(Dictionary * a, Dictionary * b);
+void split(Dictionary * c, int element, Dictionary ** a, Dictionary ** b);
 void printDictionary(Dictionary * list);
-void printNumber(int i);
-Dictionary * mergeDictionary(Dictionary * a, Dictionary * b);
 
 #endif //UNTITLED_Dictionary_H
