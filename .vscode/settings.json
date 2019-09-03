@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "dynamiclist.h": "c"
+        "dynamiclist.h": "c",
+        "stdio.h": "c"
     }
 }
