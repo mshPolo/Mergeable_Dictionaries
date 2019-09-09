@@ -1,5 +1,5 @@
-//#include "../Dictionary/dictionary.c"
-#include "../Dictionary/dictionary.h"
+#include "../Dictionary_Linked_List/dictionary_linked_list.c"
+//#include "../Dictionary/dictionary.h"
 
 
 void init(Dictionary * a, int min, int max, int step){
@@ -89,6 +89,6 @@ void allTests(){
     init(a, 0, 10000000, 10);
     insertDeleteTest(a, 1, 10000001, 100000);
     splitMergeTest(&a, 1, 10000001, 100000);
-    searchTest(a, 1, 10000001, 10000);
+    searchTest(a, 1, 10000001, 100000);
     //printDictionary(a);
 }

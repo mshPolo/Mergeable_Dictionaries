@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <stdlib.h>
 //#include "Test/test.c"
-#include "Test/test.h"
+//#include "Test/test.h"
 //#include "Dictionary/dictionary.c"
+#include "Dictionary_Linked_List/dictionary_linked_list.c"
 
 int main() {
     /*
@@ -65,7 +67,44 @@ int main() {
     //printf("%d\n",search(c, 901));
     //printf("%d\n",search(c, 4900));
     */
-   allTests();
+   //allTests();
+   /*
+   Dictionary * dictionary = newDictionary();
+   int i;
+    for(i = 1; i < 50; i += 5){
+        //int k = rand() << 4;
+        int k = i;
+        printf("%d\n", k);
+        insert(dictionary,k);
+    }
+    printDictionary(dictionary);
+    delete(dictionary,3);
+    printDictionary(dictionary);
+    delete(dictionary,7);
+    printDictionary(dictionary);
+    delete(dictionary,11);
+    insert(dictionary,7);
+    printDictionary(dictionary);
+    printf("%d\n", search(dictionary, 27));
+    printf("%d\n", search(dictionary, 26));
+    printf("%d\n", search(dictionary, 25));
+    printf("%d\n", search(dictionary, 20));
+    //printf(RAND_MAX);
+    */
+    Dictionary * a = newDictionary();
+    Dictionary * b = newDictionary();
+    int i;
+    for(i = 0; i < 40; i += 5){
+        insert(a,i);
+        insert(b,i+2);
+    }
+    printDictionary(a);
+    printDictionary(b);
+    fflush(stdout);
+    Dictionary * c = merge(a,b);
+    printDictionary(c);
+
+
     return 0;
     
 }

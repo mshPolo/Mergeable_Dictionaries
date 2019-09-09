@@ -36,9 +36,8 @@ Dictionary * newDictionary(int size) {
 }
 
 int search(Dictionary * a, int element){
+    //TODO: what if contains no elements
     int i = findPredecessorIndex(a,element);
-    //printf("predecessor at: %d",i); 
-    //fflush(stdout);
     return a->list[i];
 }
 
