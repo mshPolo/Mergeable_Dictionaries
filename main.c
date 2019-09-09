@@ -94,7 +94,7 @@ int main() {
     Dictionary * a = newDictionary();
     Dictionary * b = newDictionary();
     int i;
-    for(i = 0; i < 40; i += 5){
+    for(i = 1; i < 40; i += 5){
         insert(a,i);
         insert(b,i+2);
     }
@@ -103,7 +103,9 @@ int main() {
     fflush(stdout);
     Dictionary * c = merge(a,b);
     printDictionary(c);
-
+    split(NULL,17,&a,&b);
+    printDictionary(a);
+    printDictionary(b);
 
     return 0;
     

@@ -116,6 +116,39 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
     return c;
 }
 
+void split(Dictionary * c, int value, Dictionary ** a, Dictionary ** b){
+    if (c == NULL) return;
+    (*a) = newDictionary();
+    (*b) = newDictionary();
+    //(*a)->head = c->head;
+    Element * current = c->head;
+    int count = 0;
+    if(c->head == NULL){
+        (*a)->head = NULL;
+        (*a)->size = 0;
+        (*b)->head = NULL;
+        (*b)->size = 0;
+
+    }else if(current->value > value){
+        (*a)->head = NULL;
+        (*a)->size = 0;
+        (*b)->head = c->head;
+        (*b)->size = c->size;
+    }else{
+        (*a)->head = c->head;
+        count++;
+        Element * current = c->head;
+        while (current->next != NULL && current->next->value <= value){
+            current = current->next;
+            count++;
+        }
+        (*b)->head = current->next;
+        current->next = NULL;
+        (*a)->size = count;
+        (*b)->size = c->size - count;
+    }
+}
+
 Element * newElement(int value){
     Element * dictionary = (Element *) malloc(sizeof(Element));
     dictionary->value = value;
