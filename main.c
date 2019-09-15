@@ -112,21 +112,34 @@ int main() {
     printDictionary(b);
 */
     Dictionary * dictionary = newDictionary();
-    printf("A\n");
+    //printf("A\n");
     inOrderTraversal(dictionary->root);
     insert(dictionary,5);
     insert(dictionary,2);
     insert(dictionary,21);
     insert(dictionary,6);
-    insert(dictionary,5);
-    insert(dictionary,8);
-    insert(dictionary,12);
-    insert(dictionary,14);
-    printf("\nB\n");
-    inOrderTraversal(dictionary->root);
-    printf("\nC\n");
     preOrderTraversal(dictionary->root);
-    printf("\n%d\n", search(dictionary,11));
+    fflush(stdout);
+    insert(dictionary,5);
+    preOrderTraversal(dictionary->root);
+    fflush(stdout);
+    insert(dictionary,8);
+    preOrderTraversal(dictionary->root);
+    fflush(stdout);
+    insert(dictionary,12);
+    preOrderTraversal(dictionary->root);
+    fflush(stdout);
+    insert(dictionary,14);
+    preOrderTraversal(dictionary->root);
+    fflush(stdout);
+    //printf("\nB\n");
+    inOrderTraversal(dictionary->root);
+    printf("\n");
+    fflush(stdout);
+    //printf("\nC\n");
+    preOrderTraversal(dictionary->root);
+    fflush(stdout);
+    //printf("\n%d\n", search(dictionary,11));
     return 0;
     
 }
