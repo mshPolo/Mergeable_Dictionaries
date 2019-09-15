@@ -3,7 +3,8 @@
 //#include "Test/test.c"
 //#include "Test/test.h"
 //#include "Dictionary/dictionary.c"
-#include "Dictionary_Linked_List/dictionary_linked_list.c"
+//#include "Dictionary_Linked_List/dictionary_linked_list.c"
+#include "Dictionary_Search_Tree/dictionary_search_tree.c"
 
 int main() {
     /*
@@ -91,6 +92,9 @@ int main() {
     printf("%d\n", search(dictionary, 20));
     //printf(RAND_MAX);
     */
+
+   //LINKED_LIST
+   /*
     Dictionary * a = newDictionary();
     Dictionary * b = newDictionary();
     int i;
@@ -106,7 +110,23 @@ int main() {
     split(NULL,17,&a,&b);
     printDictionary(a);
     printDictionary(b);
-
+*/
+    Dictionary * dictionary = newDictionary();
+    printf("A\n");
+    inOrderTraversal(dictionary->root);
+    insert(dictionary,5);
+    insert(dictionary,2);
+    insert(dictionary,21);
+    insert(dictionary,6);
+    insert(dictionary,5);
+    insert(dictionary,8);
+    insert(dictionary,12);
+    insert(dictionary,14);
+    printf("\nB\n");
+    inOrderTraversal(dictionary->root);
+    printf("\nC\n");
+    preOrderTraversal(dictionary->root);
+    printf("\n%d\n", search(dictionary,11));
     return 0;
     
 }

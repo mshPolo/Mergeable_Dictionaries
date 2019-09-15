@@ -49,6 +49,7 @@ void delete(Dictionary * dictionary, int value){
     }else if(dictionary->head->next == NULL){
         if (dictionary->head->value == value)
         {
+            free(dictionary->head);
             dictionary->head = NULL;
             //TODO FREE MEMORY STUFF HERE
             dictionary->size--;
@@ -59,8 +60,10 @@ void delete(Dictionary * dictionary, int value){
             current = current->next;
         }
         if(current->next != NULL && current->next->value == value){
-            //TODO FREE MEMORY STUFF HERE
+            Element * temp = current->next;
             current->next = current->next->next;
+            //TODO FREE MEMORY STUFF HERE
+            free(temp);
             dictionary->size--;
         }
     }
@@ -155,6 +158,12 @@ Element * newElement(int value){
     dictionary->next = NULL;
     return dictionary;
 }
+
+void freeElement(Element * element){
+    free(element);
+}
+
+//TODO: IMPLEMENT FUNCTION TO FREE DICTIONARY
 
 void printDictionary(Dictionary * dictionary){
     Element * head = dictionary->head;
