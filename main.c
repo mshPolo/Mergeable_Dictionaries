@@ -111,6 +111,7 @@ int main() {
     printDictionary(a);
     printDictionary(b);
 */
+/*
     Dictionary * dictionary = newDictionary();
     //printf("A\n");
     inOrderTraversal(dictionary->root);
@@ -118,28 +119,93 @@ int main() {
     insert(dictionary,2);
     insert(dictionary,21);
     insert(dictionary,6);
-    preOrderTraversal(dictionary->root);
+    //preOrderTraversal(dictionary->root);
+    //printf("\n");
     fflush(stdout);
     insert(dictionary,5);
-    preOrderTraversal(dictionary->root);
+    //preOrderTraversal(dictionary->root);
+    //printf("\n");
     fflush(stdout);
     insert(dictionary,8);
-    preOrderTraversal(dictionary->root);
+    //preOrderTraversal(dictionary->root);
+    //printf("\n");
     fflush(stdout);
     insert(dictionary,12);
-    preOrderTraversal(dictionary->root);
+    //preOrderTraversal(dictionary->root);
+    //printf("\n");
     fflush(stdout);
     insert(dictionary,14);
-    preOrderTraversal(dictionary->root);
+    insert(dictionary,11);
+    insert(dictionary,3);
+    //preOrderTraversal(dictionary->root);
+    //printf("\n");
     fflush(stdout);
     //printf("\nB\n");
-    inOrderTraversal(dictionary->root);
-    printf("\n");
+    //inOrderTraversal(dictionary->root);
+    //printf("\n");
     fflush(stdout);
     //printf("\nC\n");
-    preOrderTraversal(dictionary->root);
+    //preOrderTraversal(dictionary->root);
     fflush(stdout);
     //printf("\n%d\n", search(dictionary,11));
+    */
+    /*
+    printf("%d\n", countTraversal(dictionary->root));
+    int size = countTraversal(dictionary->root);
+    int * arrayA = (int *) malloc(size*sizeof(int));
+    int i = 0;
+    inOrderToList(dictionary->root,arrayA,&i);
+    for(int k = 0; k < size; k++){
+        printf("%d\n", arrayA[k]);
+    }
+    */
+/*
+   int * a = (int *) malloc(10*sizeof(int));
+   int * b = (int *) malloc(10*sizeof(int));
+   int * c = (int *) malloc(20*sizeof(int));
+    for(int i = 0; i < 5; i++){
+        a[i] = i;
+        b[i] = 4*i;
+    }
+    int size = mergeArrays(c,a,5,b,5);
+    for(int i = 0; i < size; i++){
+        printf("%d\t",c[i]);
+    }
+    printf("\nSize = %d\n", size);
+    fflush(stdout);
+    Node * node = BSTFromArray(c,0,size-1,NULL);
+    inOrderTraversal(node);
+    printf("\n");
+    preOrderTraversal(node);
+    */
+   Dictionary * a = newDictionary();
+   Dictionary * b = newDictionary();
+   for(int i = 0; i < 10; i++){
+       insert(a,4*i);
+       insert(b,4*(i+2));
+   }
+   Dictionary * c = merge(a,b);
+    inOrderTraversal(c->root);
+    printf("\n");
+    preOrderTraversal(c->root);
+
+
+    /*
+    Dictionary * a = NULL;
+    Dictionary * b = NULL;
+    printf("%d\n", search(dictionary,1));
+    split(dictionary,1,&a,&b);
+    fflush(stdout);
+    inOrderTraversal(a->root);
+    printf("\n");
+    fflush(stdout);
+    inOrderTraversal(b->root);
+    printf("\n");
+    fflush(stdout);
+    printf("%d", countTraversal(b));
+    */
+
+
+
     return 0;
-    
 }

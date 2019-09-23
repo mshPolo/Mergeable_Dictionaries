@@ -13,10 +13,16 @@ typedef struct Dictionary{
     Node * root;
 }Dictionary;
 
+//Helper functions
 Node * newNode(int value);
 void rightRotate(Node * node);
 void leftRotate(Node * node);
-void splay(Node * node);
+void splay(Node * node, Dictionary * dictionary);
+Node * findPredecessor(Dictionary * dictionary, int value);
+void inOrderToList(Node * node, int * array, int * index);
+int countTraversal(Node * node);
+int mergeArrays(int * result, int * a, int sizeA, int * b, int sizeB);
+Node * BSTFromArray(int * array, int left, int right, Node * parent);
 
 Dictionary * newDictionary(){
     Dictionary * dictionary = (Dictionary *) malloc(sizeof(dictionary));
@@ -25,7 +31,7 @@ Dictionary * newDictionary(){
     return dictionary;
 }
 
-int search(Dictionary * dictionary, int value){
+int search(Dictionary * dictionary, int value){/*
     Node * current = dictionary->root;
     Node * currentPredecessor = current;
     while(current != NULL && current->value != value){
@@ -39,6 +45,11 @@ int search(Dictionary * dictionary, int value){
         }
     }
     return currentPredecessor->value;
+    */
+   Node * predecesssor = findPredecessor(dictionary,value);
+   if(!predecesssor) return -1;
+   splay(predecesssor,dictionary);
+   return predecesssor->value;
 }
 
 void insert(Dictionary * dictionary, int value){
@@ -49,7 +60,7 @@ void insert(Dictionary * dictionary, int value){
     else{
         Node * current = dictionary->root;
         while(current != NULL && k++ < 10){
-            printf("current : %d, left : %d, right %d, parent %d\n", current->value, current->left, current->right, current->parent); fflush(stdout);
+            //printf("current : %d, left : %d, right %d, parent %d\n", current->value, current->left, current->right, current->parent); fflush(stdout);
             if(current->value == value) return;
             if(current->value < value){
                 //printf("abcd\n"); fflush(stdout);
@@ -72,23 +83,60 @@ void insert(Dictionary * dictionary, int value){
             }
         }
         //printf("abcd5\n"); fflush(stdout);
-        splay(new);
+        splay(new,dictionary);
         //if(current->value == value) return;
-        dictionary->root = new;
+        //dictionary->root = new;
     }
 }
 
+void delete(Dictionary * a, int element){
+
+}
+
+void split(Dictionary * c, int value, Dictionary ** a, Dictionary ** b){
+    Node * predecessor = findPredecessor(c,value);
+    splay(predecessor,c);
+    *a = newDictionary();
+    *b = newDictionary();
+    (*a)->root = predecessor;
+    if(predecessor){
+        (*b)->root = predecessor->right;
+        predecessor->right = NULL;
+    }else{
+        (*b)->root = c->root;
+    }
+}
+
+Dictionary * merge(Dictionary * a, Dictionary * b){
+    Dictionary * c = newDictionary();
+    int sizeA = countTraversal(a->root);
+    int sizeB = countTraversal(b->root);
+    int * arrayA = (int *) malloc(sizeA*sizeof(int));
+    int * arrayB = (int *) malloc(sizeB*sizeof(int));
+    int k = 0;
+    inOrderToList(a->root, arrayA, &k);
+    k = 0;
+    inOrderToList(b->root, arrayB, &k);
+    int * arrayAll = (int *) malloc((sizeA+sizeB)*sizeof(int));
+    int size = mergeArrays(arrayAll,arrayA,sizeA,arrayB,sizeB);
+    Node * root = BSTFromArray(arrayAll, 0, size-1, NULL);
+    c->root = root;
+    return c;
+}
+
+/*
 void someFunction(Node * node){
     if(!node) printf("NULL\n");
     else
         printf("val: %d, current : %d, left : %d, right %d, parent %d\n", node->value, node, node->left, node->right, node->parent);
         fflush(stdout);
 }
-
+*/
 //THIS LOOKS A LOT LIKE THE SPLAY FUNCTION ON WIKIPEDIA IN CASE YOU NEED TO HAND THIS IN
-void splay(Node * node){
+void splay(Node * node, Dictionary * dictionary){
+    if(!node) return;
     int k = 0;
-    printf("\n");
+    //printf("\n");
     while(node->parent && k++ < 10){
         //someFunction(node);
         //someFunction(node->parent);
@@ -130,6 +178,7 @@ void splay(Node * node){
             rightRotate(node);
         }
     }
+    dictionary->root = node;
     //printf("\n");
 }
 
@@ -176,15 +225,47 @@ void inOrderTraversal(Node * node){
     inOrderTraversal(node->right);
 }
 
+void inOrderToList(Node * node, int * array, int * index){
+    if(node == NULL) return;
+    inOrderToList(node->left, array, index);
+    array[(*index)++] = node->value;
+    inOrderToList(node->right, array, index);
+}
+
+int countTraversal(Node * node){
+    if(!node) return 0;
+    return countTraversal(node->left) + countTraversal(node->right) + 1;
+}
+
 void preOrderTraversal(Node * node){
     //if(node == NULL) return;
+    
     if(node == NULL){
-        printf("NULL ");
+        printf("NULL");
         return;
     }
+    
     printf("%d ", node->value);
     preOrderTraversal(node->left);
     preOrderTraversal(node->right);
+}
+
+Node * findPredecessor(Dictionary * dictionary, int value){
+    Node * current = dictionary->root;
+    Node * currentPredecessor = NULL;
+    while(current != NULL && current->value != value){
+        if(current->value < value){
+            if(current->value > currentPredecessor->value){
+                currentPredecessor = current;
+            }
+            current = current->right;
+        }else{
+            current = current->left;
+        }
+    }
+    if(current && current->value == value) currentPredecessor = current;
+    //if(!currentPredecessor) printf("pre is NULL\n "); fflush(stdout);
+    return (currentPredecessor);
 }
 
 Node * newNode(int value){
@@ -195,4 +276,37 @@ Node * newNode(int value){
     node->parent = NULL;
     return node;
 }
+
+//Assumes enough space in result
+int mergeArrays(int * result, int * a, int sizeA, int * b, int sizeB){
+    int countA = 0,countB = 0, i = 0;
+    int sizeResult = sizeA + sizeB;
+    while (countA < sizeA && countB < sizeB){
+        if(a[countA] < b[countB]){
+            result[i++] = a[countA++];
+        } else if(a[countA] == b[countB]) {
+            result[i++] = a[countA++];
+            countB++;
+            sizeResult--;
+        } else {
+            result[i++] = b[countB++];
+        }
+    }
+    while (countA < sizeA) result[i++] = a[countA++];
+    while (countB < sizeB) result[i++] = b[countB++];
+    return sizeResult;
+}
+
+Node * BSTFromArray(int * array, int left, int right, Node * parent){
+    int index = (left + right)/2;
+    if(left > right) return NULL;
+    //printf("left = %d, right = %d, index = %d\n", left, right, index);
+    //fflush(stdout);
+    Node * node = newNode(array[index]);
+    node->parent = parent;
+    node->left = BSTFromArray(array,left,index-1,node);
+    node->right = BSTFromArray(array,index+1,right,node);
+    return node;
+}
+
 

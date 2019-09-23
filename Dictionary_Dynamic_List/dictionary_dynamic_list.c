@@ -93,7 +93,7 @@ void delete(Dictionary * a, int element){
 
 Dictionary * merge(Dictionary * a, Dictionary * b){
     Dictionary * c = newDictionary(2*(a->used+b->used));
-    int countA = 0,countB = 0, i = 0;
+    int countA = 0,countB = 0, i = 0, size = a->used + b->used;
     while (countA < a->used && countB < b->used){
         if(a->list[countA] < b->list[countB]){
             c->list[i] = a->list[countA];
@@ -104,6 +104,7 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
             countA++; 
             countB++;
             i++;
+            size--;
         } else {
             c->list[i] = b->list[countB];
             countB++;
@@ -111,9 +112,9 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
         }
     }
     
-    while (countA < a->used){ c->list[i] = a->list[countA]; countA++; i++; }
-    while (countB < b->used){ c->list[i] = b->list[countB]; countB++; i++; }
-    c->used = a->used + b->used;
+    while (countA < a->used) c->list[i++] = a->list[countA++];
+    while (countB < b->used) c->list[i++] = b->list[countB++];
+    c->used = size;
 
     freeDictionary(a);
     freeDictionary(b);
