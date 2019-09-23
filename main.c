@@ -180,14 +180,21 @@ int main() {
     */
    Dictionary * a = newDictionary();
    Dictionary * b = newDictionary();
-   for(int i = 0; i < 10; i++){
+   for(int i = 0; i < 4; i++){
        insert(a,4*i);
        insert(b,4*(i+2));
    }
+   
    Dictionary * c = merge(a,b);
     inOrderTraversal(c->root);
     printf("\n");
-    preOrderTraversal(c->root);
+    //preOrderTraversal(c->root);
+    fflush(stdout);
+    //search(c,28);
+    delete(c,28);
+    //printf("1234\n");
+    fflush(stdout);
+    inOrderTraversal(c->root);
 
 
     /*

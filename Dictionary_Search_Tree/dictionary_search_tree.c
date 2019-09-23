@@ -17,12 +17,14 @@ typedef struct Dictionary{
 Node * newNode(int value);
 void rightRotate(Node * node);
 void leftRotate(Node * node);
-void splay(Node * node, Dictionary * dictionary);
-Node * findPredecessor(Dictionary * dictionary, int value);
+void splay(Node * node);
+//Node * findPredecessor(Dictionary * dictionary, int value);
+Node * findPredecessor(Node * current, int value);
 void inOrderToList(Node * node, int * array, int * index);
 int countTraversal(Node * node);
 int mergeArrays(int * result, int * a, int sizeA, int * b, int sizeB);
 Node * BSTFromArray(int * array, int left, int right, Node * parent);
+void someFunction(Node * node);
 
 Dictionary * newDictionary(){
     Dictionary * dictionary = (Dictionary *) malloc(sizeof(dictionary));
@@ -46,9 +48,14 @@ int search(Dictionary * dictionary, int value){/*
     }
     return currentPredecessor->value;
     */
-   Node * predecesssor = findPredecessor(dictionary,value);
+   //printf("a\n"); fflush(stdout);
+   Node * predecesssor = findPredecessor(dictionary->root,value);
+    //printf("ab\n"); fflush(stdout);
    if(!predecesssor) return -1;
-   splay(predecesssor,dictionary);
+      //printf("ac\n"); fflush(stdout);
+   splay(predecesssor);
+      //printf("ad\n"); fflush(stdout);
+   dictionary->root = predecesssor;
    return predecesssor->value;
 }
 
@@ -83,25 +90,58 @@ void insert(Dictionary * dictionary, int value){
             }
         }
         //printf("abcd5\n"); fflush(stdout);
-        splay(new,dictionary);
+        splay(new);
+        dictionary->root = new;
         //if(current->value == value) return;
         //dictionary->root = new;
     }
 }
 
-void delete(Dictionary * a, int element){
-
+void delete(Dictionary * dictionary, int value){
+    //printf("ABCD\n");
+    fflush(stdout);
+    Node * predecesssor = findPredecessor(dictionary->root,value);
+    //printf("ABCD\n");
+    fflush(stdout);
+    if(!predecesssor || predecesssor-> value != value) return;
+    splay(predecesssor);
+    //printf("ABCD\n");
+    fflush(stdout);
+    Node * right = predecesssor->right;
+    Node * left = predecesssor->left;
+    //someFunction(predecesssor);
+    //someFunction(left);
+    someFunction(right);
+    free(predecesssor);
+    if(left) left->parent = NULL;
+    if(right) right->parent = NULL;
+    //printf("ABCD\n");
+    fflush(stdout);
+    if(!left){
+        dictionary->root = right;
+        return;
+    }
+    Node * maxInLeft = findPredecessor(left,value);
+    splay(maxInLeft);
+    maxInLeft->right = right;
+    if(right) right->parent = maxInLeft;
+    dictionary->root = maxInLeft;
 }
 
 void split(Dictionary * c, int value, Dictionary ** a, Dictionary ** b){
-    Node * predecessor = findPredecessor(c,value);
-    splay(predecessor,c);
+    if(!c) return;
+    Node * predecessor = findPredecessor(c->root,value);
+    splay(predecessor);
+    c->root = predecessor;
     *a = newDictionary();
     *b = newDictionary();
     (*a)->root = predecessor;
     if(predecessor){
         (*b)->root = predecessor->right;
         predecessor->right = NULL;
+        if(predecessor->right){
+            predecessor->right->parent = NULL;
+        }
     }else{
         (*b)->root = c->root;
     }
@@ -124,16 +164,16 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
     return c;
 }
 
-/*
+
 void someFunction(Node * node){
     if(!node) printf("NULL\n");
     else
         printf("val: %d, current : %d, left : %d, right %d, parent %d\n", node->value, node, node->left, node->right, node->parent);
         fflush(stdout);
 }
-*/
+
 //THIS LOOKS A LOT LIKE THE SPLAY FUNCTION ON WIKIPEDIA IN CASE YOU NEED TO HAND THIS IN
-void splay(Node * node, Dictionary * dictionary){
+void splay(Node * node){
     if(!node) return;
     int k = 0;
     //printf("\n");
@@ -178,7 +218,7 @@ void splay(Node * node, Dictionary * dictionary){
             rightRotate(node);
         }
     }
-    dictionary->root = node;
+    //dictionary->root = node;
     //printf("\n");
 }
 
@@ -239,7 +279,7 @@ int countTraversal(Node * node){
 
 void preOrderTraversal(Node * node){
     //if(node == NULL) return;
-    
+    //someFunction(node);
     if(node == NULL){
         printf("NULL");
         return;
@@ -250,12 +290,13 @@ void preOrderTraversal(Node * node){
     preOrderTraversal(node->right);
 }
 
-Node * findPredecessor(Dictionary * dictionary, int value){
-    Node * current = dictionary->root;
+//Node * findPredecessor(Dictionary * dictionary, int value){
+Node * findPredecessor(Node * current, int value){
+    //Node * current = dictionary->root;
     Node * currentPredecessor = NULL;
     while(current != NULL && current->value != value){
         if(current->value < value){
-            if(current->value > currentPredecessor->value){
+            if(!currentPredecessor || current->value > currentPredecessor->value){
                 currentPredecessor = current;
             }
             current = current->right;

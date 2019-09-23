@@ -144,7 +144,7 @@ void split(Dictionary * c, int element, Dictionary ** a, Dictionary ** b){
 int findPredecessorIndex(Dictionary * a, int element){
     int left = 0;
     int right = a->used-1;
-   //int k = 0;
+    //int k = 0;
     //printf("before while\n"); 
     //fflush(stdout);
     while(left < right){
