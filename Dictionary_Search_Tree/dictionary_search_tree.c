@@ -60,13 +60,15 @@ int search(Dictionary * dictionary, int value){/*
 }
 
 void insert(Dictionary * dictionary, int value){
-    int k = 0;
+    //if(value == 824938981) printf();
+    //int k = 0;
     Node * new = newNode(value);
     if(dictionary->root == NULL)
         dictionary->root = new;
     else{
         Node * current = dictionary->root;
-        while(current != NULL && k++ < 10){
+        while(current != NULL){
+            //if(value == 824938981) printf("\ncurrent : %d\n", current->value);
             //printf("current : %d, left : %d, right %d, parent %d\n", current->value, current->left, current->right, current->parent); fflush(stdout);
             if(current->value == value) return;
             if(current->value < value){
@@ -90,8 +92,11 @@ void insert(Dictionary * dictionary, int value){
             }
         }
         //printf("abcd5\n"); fflush(stdout);
+        //if(value == 824938981) printf("\nC: %d\n",countTraversal(dictionary->root));
         splay(new);
+        //if(value == 824938981) printf("\nC: %d\n",countTraversal(dictionary->root));
         dictionary->root = new;
+        //if(value == 824938981) printf("\nC: %d\n",countTraversal(dictionary->root));
         //if(current->value == value) return;
         //dictionary->root = new;
     }
@@ -168,7 +173,7 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
 void someFunction(Node * node){
     if(!node) printf("NULL\n");
     else
-        printf("val: %d, current : %d, left : %d, right %d, parent %d\n", node->value, node, node->left, node->right, node->parent);
+        //printf("val: %d, current : %d, left : %d, right %d, parent %d\n", node->value, node, node->left, node->right, node->parent);
         fflush(stdout);
 }
 
@@ -274,6 +279,7 @@ void inOrderToList(Node * node, int * array, int * index){
 
 int countTraversal(Node * node){
     if(!node) return 0;
+    //printf("cake");
     return countTraversal(node->left) + countTraversal(node->right) + 1;
 }
 

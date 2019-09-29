@@ -11,6 +11,7 @@
         "istream": "c",
         "ostream": "c",
         "system_error": "c",
-        "tuple": "c"
+        "tuple": "c",
+        "random": "c"
     }
 }

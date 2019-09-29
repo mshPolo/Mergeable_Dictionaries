@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "Test/test.c"
+//#include <time.h>
+
+#include "Test/test.c"
+
 //#include "Test/test.h"
 //#include "Dictionary/dictionary.c"
 //#include "Dictionary_Linked_List/dictionary_linked_list.c"
-#include "Dictionary_Search_Tree/dictionary_search_tree.c"
+//#include "Dictionary_Search_Tree/dictionary_search_tree.c"
 
 int main() {
     /*
@@ -178,6 +181,7 @@ int main() {
     printf("\n");
     preOrderTraversal(node);
     */
+   /*
    Dictionary * a = newDictionary();
    Dictionary * b = newDictionary();
    for(int i = 0; i < 4; i++){
@@ -195,7 +199,7 @@ int main() {
     //printf("1234\n");
     fflush(stdout);
     inOrderTraversal(c->root);
-
+    */
 
     /*
     Dictionary * a = NULL;
@@ -211,8 +215,25 @@ int main() {
     fflush(stdout);
     printf("%d", countTraversal(b));
     */
-
-
-
+    //srand(2);
+    //printf("\n %d ", rand());
+    //printf("%d", RAND_MAX);
+    /*
+    int size = 1;
+    Dictionary ** dictionaries = init_rand_test(size);
+    
+    for(int i = 0; i < size; i++){
+        printf("%d", countTraversal(dictionaries[i]->root));
+        printf("\n");
+    }
+    */
+    /*
+    clock_t begin = clock();
+    init_rand_test(3);
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("%f", time_spent);
+    */
+    all_random_tests();
     return 0;
 }

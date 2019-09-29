@@ -13,7 +13,7 @@ typedef struct {
 }Dictionary;
 
 void freeDictionary(Dictionary * a);
-Dictionary * newDictionary(int size);
+//Dictionary * newDictionary(int size);
 int search(Dictionary * a, int element);
 int findPredecessorIndex(Dictionary * a, int element);
 void increaseSize(Dictionary * a);
@@ -27,7 +27,16 @@ void split(Dictionary * c, int element, Dictionary ** a, Dictionary ** b);
 //Dictionary * mergeDictionary(Dictionary * a, Dictionary * b);
 //void splitDictionary(Dictionary * c, int element, Dictionary ** a, Dictionary * b);
 
-Dictionary * newDictionary(int size) {
+Dictionary * newDictionary() {
+    int size = 10;
+    Dictionary * a = (Dictionary * ) malloc(sizeof(Dictionary));
+    a->list = (int *)malloc(size * sizeof(int));
+    a->used = 0;
+    a->size = size;
+    return a;
+}
+
+Dictionary * newDictionaryWithSize(int size) {
     Dictionary * a = (Dictionary * ) malloc(sizeof(Dictionary));
     a->list = (int *)malloc(size * sizeof(int));
     a->used = 0;
@@ -92,7 +101,7 @@ void delete(Dictionary * a, int element){
 }
 
 Dictionary * merge(Dictionary * a, Dictionary * b){
-    Dictionary * c = newDictionary(2*(a->used+b->used));
+    Dictionary * c = newDictionaryWithSize(2*(a->used+b->used));
     int countA = 0,countB = 0, i = 0, size = a->used + b->used;
     while (countA < a->used && countB < b->used){
         if(a->list[countA] < b->list[countB]){
@@ -124,8 +133,8 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
 
 void split(Dictionary * c, int element, Dictionary ** a, Dictionary ** b){
     int i = findPredecessorIndex(c,element);
-    *a = newDictionary(2 * i);
-    *b = newDictionary(2 * (c->used - i));
+    *a = newDictionaryWithSize(2 * i);
+    *b = newDictionaryWithSize(2 * (c->used - i));
     int j;
     //Assumes no duplicates
     for(j = 0; j <= i; j++){
