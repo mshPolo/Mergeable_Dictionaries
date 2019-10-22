@@ -1,9 +1,12 @@
 //#include "../Dictionary_Linked_List/dictionary_linked_list.c"
 #include <time.h>
+#include <math.h>
 #include "../Dictionary_Search_Tree/dictionary_search_tree.c"
 //#include "../Dictionary_Linked_List/dictionary_linked_list.c"
 //#include "../Dictionary_Dynamic_List/dictionary_dynamic_list.c"
 //#include "../Dictionary/dictionary.h"
+
+Dictionary ** init_rand_test(int size, int amount);
 
 /*
 void init(Dictionary * a, int min, int max, int step){
@@ -105,27 +108,28 @@ void allTests(){
 
 
 //void insert_test_rand(Dictionary ** c){
-Dictionary ** init_rand_test(int size, int amount){
-    Dictionary ** dictionaries = (Dictionary **) malloc(size * sizeof(Dictionary *));
-    int i;
-    for(i = 0; i < amount; i++){
-        dictionaries[i] = newDictionary();
-        int k;
-        int seed = 420 * 101 * i ; 
-        srand(seed);
-        for(k = 0; k < size; k++){
-            int j = rand();
-            /*
-            if(k == 71){
-                inOrderTraversal(dictionaries[i]->root);
-                printf("\n%d ", j);
-            }
-            */
-            insert(dictionaries[i],j);
-        }
-    }
-    return dictionaries; 
-}
+// Dictionary ** init_rand_test(int size, int amount){
+//     Dictionary ** dictionaries = (Dictionary **) malloc(size * sizeof(Dictionary *));
+//     int i;
+//     for(i = 0; i < amount; i++){
+//         dictionaries[i] = newDictionary();
+//         int k;
+//         int seed = 420 * 101 * i ; 
+//         srand(seed);
+//         for(k = 0; k < size; k++){
+//             int j = rand();
+//             /*
+//             if(k == 71){
+//                 inOrderTraversal(dictionaries[i]->root);
+//                 printf("\n%d ", j);
+//             }
+//             */
+//             insert(dictionaries[i],j);
+//         }
+//     }
+//     return dictionaries; 
+// }
+
 
 void insert_rand_test(Dictionary ** dictionaries, int amount){
     int i = 0;
@@ -160,12 +164,35 @@ void merge_rand_test(Dictionary ** dictionaries, int amount){
     int i;
     for(i = 1; i < amount; i += 2){
         int j = rand();
+        //printf("\n %d %d\n", amount, i); fflush(stdout);
         merge(dictionaries[i-1], dictionaries[i]);
     }
 }
 
-void all_random_tests(){
-    int size = 2500;
+void merge_test_1(Dictionary ** dictionaries, int amount){
+    amount = 16;
+    int newAmount = amount;
+    for(int j; j < 4; j++){
+        int newAmount = amount/2;
+        Dictionary ** dictionaries = (Dictionary **) malloc(amount * sizeof(Dictionary *)); 
+        for(int i = 1; i < amount; i += 2){
+            int j = rand();
+            //printf("\n %d %d\n", amount, i); fflush(stdout);
+            merge(dictionaries[i-1], dictionaries[i]);
+        }
+    }
+}
+/*
+void merge_rand_test(Dictionary ** dictionaries, int amount){
+    int i;
+    for(i = 1; i < amount; i += 2){
+        int j = rand();
+        merge(dictionaries[i-1], dictionaries[i]);
+    }
+}
+*/
+void all_random_tests(int size){
+    //int size = 10000;
     int number = 10;
     Dictionary ** dictionaries = init_rand_test(size,number);
     clock_t begin, end;
@@ -173,25 +200,25 @@ void all_random_tests(){
     double time_spent;
 
     //Insert
-    amount = 100;
+    amount = 1000;
     begin = clock();
-    insert_rand_test(dictionaries,1);
+    insert_rand_test(dictionaries,amount);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("Time spent on insert:\t %8.8f, time per insert:\t %8.8f\n", time_spent, time_spent/amount);
 
     //Merge
     dictionaries = init_rand_test(size,number); 
-    amount = number;
+    //printf("1234"); fflush(stdout);
     begin = clock();
-    merge_rand_test(dictionaries,amount);
+    merge_rand_test(dictionaries,number);
     end = clock();
     time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Time spent on merge:\t %8.8f, time per merge:\t %8.8f\n", time_spent, time_spent/amount);
+    printf("Time spent on merge:\t %8.8f, time per merge:\t %8.8f\n", time_spent, time_spent/(number/2));
 
     //Split
-    dictionaries = init_rand_test(size,number/2); 
-    amount = number/2;
+    dictionaries = init_rand_test(size,number); 
+    amount = number;
     begin = clock();
     split_rand_test(dictionaries,amount);
     end = clock();
@@ -200,7 +227,7 @@ void all_random_tests(){
 
     //Delete
     dictionaries = init_rand_test(size,1); 
-    amount = 100;
+    amount = 1000;
     begin = clock();
     delete_rand_test(dictionaries,amount);
     end = clock();
@@ -210,3 +237,30 @@ void all_random_tests(){
     return;
 }
 
+
+int compare_function(const void * a, const void * b) {
+    int *x = (int *) a;
+    int *y = (int *) b;
+    return *x - *y;
+}
+
+Dictionary * init_rand_test2(int size, int i){
+    int * list = (int *) malloc(size*sizeof(int));
+    int k;
+    int seed = 420 * 101 * (i+1) ; 
+    srand(seed);
+    for(k = 0; k < size; k++){
+        int j = rand();
+        list[k] = j;
+    }
+    Dictionary * dict = init_rand_test_from_array(list,size);
+    return dict; 
+}
+
+Dictionary ** init_rand_test(int size, int amount){
+    Dictionary ** dictionaries = (Dictionary **) malloc(amount * sizeof(Dictionary *)); 
+    for(int i = 0; i < amount; i++){
+        dictionaries[i] = init_rand_test2(size,i);
+    }
+    return dictionaries; 
+}

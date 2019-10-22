@@ -176,3 +176,34 @@ void printDictionary(Dictionary * dictionary){
     printf("\n");
 }
 
+//TODO: FIX
+// Dictionary ** init_rand_test(int size, int amount){
+//     Dictionary ** dictionaries = (Dictionary **) malloc(amount * sizeof(Dictionary *));
+//     int i;
+//     for(i = 0; i < amount; i++){
+//         dictionaries[i] = newDictionary();
+//         int k;
+//         int seed = 420 * 101 * i ; 
+//         srand(seed);
+//         dictionaries[i]->head = newElement(rand());
+//         Element * current = dictionaries[i]->head;
+//         for(k = 0; k < size; k++){
+//             int j = rand();
+//             current->next = newElement(j);
+//             current = current->next;
+//         }
+//     }
+//     return dictionaries; 
+// }
+
+Dictionary * init_rand_test_from_array(int * list,int size){
+    Dictionary * dict = newDictionary();
+    insert(dict,list[0]);
+    Element * current = dict->head;
+    for(int i = 1; i < size; i++){
+        current->next = newElement(list[i]);
+        current = current->next;
+    } 
+    dict->size = size;
+    return dict;
+}

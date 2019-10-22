@@ -214,3 +214,26 @@ void printDictionary(Dictionary * list){
     fflush(stdout);
 }
 
+//TODO: FIX
+// Dictionary ** init_rand_test(int size, int amount){
+//     Dictionary ** dictionaries = (Dictionary **) malloc(amount * sizeof(Dictionary *));
+//     int i;
+//     for(i = 0; i < amount; i++){
+//         dictionaries[i] = newDictionaryWithSize(size);
+//         int k;
+//         int seed = 420 * 101 * i ; 
+//         srand(seed);
+//         for(k = 0; k < size; k++){
+//             int j = rand();
+//             dictionaries[i]->list[k] = j;
+//         }
+//     }
+//     return dictionaries; 
+// }
+
+Dictionary * init_rand_test_from_array(int * list,int size){
+    Dictionary * dict = newDictionaryWithSize(size+1);
+    dict->list = list;
+    dict->used = size;
+    return dict;
+}

@@ -8,7 +8,14 @@
 //#include "Dictionary/dictionary.c"
 //#include "Dictionary_Linked_List/dictionary_linked_list.c"
 //#include "Dictionary_Search_Tree/dictionary_search_tree.c"
-
+/*
+int compare_function(const void * a, const void * b) {
+int *x = (int *) a;
+int *y = (int *) b;
+return *x - *y;
+//return a - b;
+}
+*/
 int main() {
     /*
     //printf("cake\n");
@@ -234,6 +241,42 @@ int main() {
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf("%f", time_spent);
     */
-    all_random_tests();
+    //all_random_tests();
+
+    Dictionary * a = newDictionary();
+    Dictionary * b = newDictionary();
+    //printf("A\n");
+    //inOrderTraversal(dictionary->root);
+    insert(a,0);
+    insert(a,5);
+    insert(a,10);
+    insert(a,15);
+    insert(a,20);
+    insert(b,7);
+    insert(b,12);
+    insert(b,17);
+    insert(b,22);
+    insert(b,27);
+    //inOrderTraversal(a->root);
+    //inOrderTraversal(b->root);
+    /*
+    fflush(stdout);
+    Dictionary * c = segmentedMerge(a,b);
+    printf("\n");
+    inOrderTraversal(c->root); 
+    fflush(stdout); 
+    //return 0;
+    int size = 10;
+    int * list = init_rand_test2(size);
+
+    for(int k = 0; k < size; k++){
+        printf("%d\n", list[k]);
+    }
+    */
+   printf("%f", log(8));
+   //all_random_tests(1000000);
+   //Dictionary * dict = init_rand_test_from_array(list,size);
+    //printDictionary(dict);
+    //inOrderTraversal(dict->root);
     return 0;
 }
