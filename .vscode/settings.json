@@ -12,6 +12,15 @@
         "ostream": "c",
         "system_error": "c",
         "tuple": "c",
-        "random": "c"
+        "random": "c",
+        "deque": "c",
+        "string": "c",
+        "vector": "c",
+        "hashtable": "c",
+        "unordered_map": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "*.tcc": "c",
+        "test.h": "c"
     }
 }

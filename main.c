@@ -243,40 +243,57 @@ int main() {
     */
     //all_random_tests();
 
-    Dictionary * a = newDictionary();
-    Dictionary * b = newDictionary();
-    //printf("A\n");
-    //inOrderTraversal(dictionary->root);
-    insert(a,0);
-    insert(a,5);
-    insert(a,10);
-    insert(a,15);
-    insert(a,20);
-    insert(b,7);
-    insert(b,12);
-    insert(b,17);
-    insert(b,22);
-    insert(b,27);
+    // Dictionary * a = newDictionary();
+    // Dictionary * b = newDictionary();
+    // //printf("A\n");
+    // //inOrderTraversal(dictionary->root);
+    // insert(a,50);
+    // insert(a,5);
+    // insert(a,10);
+    // insert(a,15);
+    // insert(a,20);
+    // insert(b,40);
+    // insert(b,1);
+    // insert(b,2);
+    // insert(b,22);
+    // insert(b,27);
+    // insert(a,2);
+    // insert(a,3);
+    // insert(a,13);
+    // insert(a,19);
+    // insert(a,20);
+    // insert(b,120);
+    // insert(b,3);
+    // insert(b,5);
+    // insert(b,23);
+    // insert(b,26);
     //inOrderTraversal(a->root);
     //inOrderTraversal(b->root);
-    /*
-    fflush(stdout);
-    Dictionary * c = segmentedMerge(a,b);
-    printf("\n");
-    inOrderTraversal(c->root); 
-    fflush(stdout); 
+    
+    // fflush(stdout);
+    //Dictionary * c = merge(a,b);
+    // printf("\n");
+    // preOrderTraversal(c->root); 
+    //inOrderTraversal(c->root); 
+    // fflush(stdout); 
     //return 0;
+    /*
     int size = 10;
-    int * list = init_rand_test2(size);
+    int * list = init_rand_test2(size,1);
 
     for(int k = 0; k < size; k++){
         printf("%d\n", list[k]);
     }
     */
-   printf("%f", log(8));
+   //int list[] = {5,4,3,1,2};
+   //qsort(list, 5, sizeof(int), compare_function);
+   //Dictionary * dict = init_rand_test_from_array(list,5);
+   //printDictionary(dict);
+   //printf("%d %d %d", list, &list[0], &list[1]);
    //all_random_tests(1000000);
    //Dictionary * dict = init_rand_test_from_array(list,size);
     //printDictionary(dict);
     //inOrderTraversal(dict->root);
+    all_random_tests(10);
     return 0;
 }

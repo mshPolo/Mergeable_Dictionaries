@@ -22,6 +22,8 @@ void splay(Node * node);
 Node * findPredecessor(Node * current, int value);
 void inOrderToList(Node * node, int * array, int * index);
 int countTraversal(Node * node);
+void inOrderTraversal(Node * node);
+void preOrderTraversal(Node * node);
 int mergeArrays(int * result, int * a, int sizeA, int * b, int sizeB);
 Node * BSTFromArray(int * array, int left, int right, Node * parent);
 void someFunction(Node * node);
@@ -115,9 +117,6 @@ void delete(Dictionary * dictionary, int value){
     fflush(stdout);
     Node * right = predecesssor->right;
     Node * left = predecesssor->left;
-    //someFunction(predecesssor);
-    //someFunction(left);
-    //someFunction(right);
     free(predecesssor);
     if(left) left->parent = NULL;
     if(right) right->parent = NULL;
@@ -136,25 +135,32 @@ void delete(Dictionary * dictionary, int value){
 void split(Dictionary * c, int value, Dictionary ** a, Dictionary ** b){
     if(!c) return;
     Node * predecessor = findPredecessor(c->root,value);
+    if(!predecessor){
+        *a = newDictionary();
+        *b = newDictionary();
+        (*b)->root = c->root;
+        return;
+    }
+    //printf("predecesor = %d", predecessor);
     splay(predecessor);
     c->root = predecessor;
+    //inOrderTraversal(c->root); printf("\n"); fflush(stdout);
     *a = newDictionary();
     *b = newDictionary();
     (*a)->root = predecessor;
     if(predecessor){
         (*b)->root = predecessor->right;
-        predecessor->right = NULL;
         if(predecessor->right){
             predecessor->right->parent = NULL;
         }
+        predecessor->right = NULL;
     }else{
         (*b)->root = c->root;
     }
 }
 
-Dictionary * merge(Dictionary * a, Dictionary * b){
+Dictionary * merge2(Dictionary * a, Dictionary * b){
     Dictionary * c = newDictionary();
-    //someFunction(a->root);
     int sizeA = countTraversal(a->root);
     //printf("CAKE2\n"); fflush(stdout);
     int sizeB = countTraversal(b->root);
@@ -175,7 +181,8 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
     return c;
 }
 
-Dictionary * segmentedMerge(Dictionary * a, Dictionary * b){
+//Dictionary * segmentedMerge(Dictionary * a, Dictionary * b){
+Dictionary * merge(Dictionary * a, Dictionary * b){
     Dictionary * c = newDictionary();
     Node * minA = findMin(a->root);
     Node * minB = findMin(b->root);
@@ -184,16 +191,26 @@ Dictionary * segmentedMerge(Dictionary * a, Dictionary * b){
     }else if(!minB){
         return a;
     }
+    printf("Amin %d, Bmin %d\n", minA, minB); fflush(stdout);
     if(minA->value < minB->value){
         segmentedMergeWithAMin(a,b,c);
     }else
     {
         segmentedMergeWithAMin(b,a,c);
     }
+    //printf("C ROOT %d \n", c->root);fflush(stdout);
+    //printf("# %d", countTraversal(c->root));  printf("\n");fflush(stdout);
+    //printf("# %d", countTraversal(c->root));  printf("\n");
     return c;
 }
 
 void segmentedMergeWithAMin(Dictionary * a, Dictionary * b, Dictionary * c){
+    // printf("C ROOT %d ", c->root);
+    // printf("# %d", countTraversal(c->root));  printf("\n");
+    // printf("A ROOT %d ", a->root);
+    // printf("# %d", countTraversal(a->root));  printf("\n");
+    // printf("B ROOT %d ", b->root);
+    // printf("# %d", countTraversal(b->root)); printf("\n\n");
     Node * minB = findMin(b->root);
     Node * a_seg_max = findPredecessor(a->root,minB->value);
     splay(a_seg_max);
@@ -203,24 +220,69 @@ void segmentedMergeWithAMin(Dictionary * a, Dictionary * b, Dictionary * c){
         a_seg_max->right->parent = NULL;
     a_seg_max->right = NULL;
     int k = 0;
+
+    // printf("C ROOT %d ", c->root);
+    // printf("# %d", countTraversal(c->root));  printf("\n");
+    // printf("A ROOT %d ", a->root);
+    // printf("# %d", countTraversal(a->root));  printf("\n");
+    // printf("B ROOT %d ", b->root);
+    // printf("# %d", countTraversal(b->root)); printf("\n\n");
+    // fflush(stdout);
+    //printf("CAKE2\n"); fflush(stdout);
     //printf("123"); fflush(stdout);
-    while(a->root && b->root && k++ < 10){
+    //while(a->root && b->root && k++ < 10){
+    // printf("C ROOT %d ", c->root);
+    // printf("# %d", countTraversal(c->root));  printf("\n");
+    // printf("A ROOT %d ", a->root);
+    // printf("# %d", countTraversal(a->root));  printf("\n");
+    // printf("B ROOT %d ", b->root);
+    // printf("# %d", countTraversal(b->root)); printf("\n\n");
+    
+    while(a->root && b->root){
         //printf("123"); fflush(stdout);
         segmentedMergeAddNext(b,a,c);
-        segmentedMergeAddNext(a,b,c);
+        //printf("\n\n\n"); fflush(stdout);
+        //preOrderTraversal(a->root);printf("\n\n"); fflush(stdout);
+        //preOrderTraversal(b->root);printf("\n"); fflush(stdout);
+        if(b->root){
+            segmentedMergeAddNext(a,b,c);
+        }
     }
+
+    // printf("C ROOT %d ", c->root);
+    // printf("# %d", countTraversal(c->root));  printf("\n");
+    // printf("A ROOT %d ", a->root);
+    // printf("# %d", countTraversal(a->root));  printf("\n");
+    // printf("B ROOT %d ", b->root);
+    // printf("# %d", countTraversal(b->root)); printf("\n\n");
+    // fflush(stdout);
+    //printf("CAKE3\n"); fflush(stdout);
     //printf("123"); fflush(stdout);
     if(a->root){
-        c->root->right = a->root;
+        //c->root->right = a->root;
+        segmentedMergeAddNext(a,b,c);
     }else if (b->root){
-        c->root->right = b->root;
+        //c->root->right = b->root;
+        segmentedMergeAddNext(b,a,c);
     }
+
+    // printf("C ROOT %d ", c->root);
+    // printf("# %d", countTraversal(c->root));  printf("\n");
+    // printf("A ROOT %d ", a->root);
+    // printf("# %d", countTraversal(a->root));  printf("\n");
+    // printf("B ROOT %d ", b->root);
+    // printf("# %d", countTraversal(b->root)); printf("\n\n\n\n");
+    // fflush(stdout);
+
     
 }
 
 void segmentedMergeAddNext(Dictionary * a, Dictionary * b, Dictionary * c){
+    //printf("cake123\n");fflush(stdout);
     Node * minB = findMin(b->root);
-    Node * a_seg_max = findPredecessor(a->root,minB->value);
+    //printf("cake456\n");fflush(stdout);
+    int minBValue = minB ? minB->value : INT32_MAX;
+    Node * a_seg_max = findPredecessor(a->root,minBValue);
     splay(a_seg_max);
     c->root->right = a_seg_max;
     a_seg_max->parent = c->root;
@@ -234,20 +296,16 @@ void segmentedMergeAddNext(Dictionary * a, Dictionary * b, Dictionary * c){
 
 void someFunction(Node * node){
     if(!node) printf("NULL\n");
-    else
+    //else
         //printf("val: %d, current : %d, left : %d, right %d, parent %d\n", node->value, node, node->left, node->right, node->parent);
-        fflush(stdout);
+        //fflush(stdout);
 }
 
-//THIS LOOKS A LOT LIKE THE SPLAY FUNCTION ON WIKIPEDIA IN CASE YOU NEED TO HAND THIS IN
 void splay(Node * node){
     if(!node) return;
     int k = 0;
     //printf("\n");
-    while(node->parent && k++ < 10){
-        //someFunction(node);
-        //someFunction(node->parent);
-        //someFunction(node->parent->parent);
+    while(node->parent){
         if (node->parent->parent){
             //printf("%d\n", node->parent->parent->left == node->parent);
             fflush(stdout);
@@ -326,9 +384,14 @@ void leftRotate(Node * node){
 }
 
 void inOrderTraversal(Node * node){
+    //someFunction(node);
     if(node == NULL) return;
+    //someFunction(node);
+    //fflush(stdout);
     inOrderTraversal(node->left);
     printf("%d ", node->value);
+    //someFunction(node);
+    fflush(stdout);
     inOrderTraversal(node->right);
 }
 
@@ -341,14 +404,14 @@ void inOrderToList(Node * node, int * array, int * index){
 
 int countTraversal(Node * node){
     if(!node) return 0;
-    someFunction(node);
+    //someFunction(node);
     //printf("cake");
     return countTraversal(node->left) + countTraversal(node->right) + 1;
 }
 
 void preOrderTraversal(Node * node){
     //if(node == NULL) return;
-    //someFunction(node);
+    someFunction(node);
     if(node == NULL){
         printf("NULL");
         return;

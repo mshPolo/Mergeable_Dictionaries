@@ -195,8 +195,14 @@ void printDictionary(Dictionary * dictionary){
 //     }
 //     return dictionaries; 
 // }
+int compare_function(const void * a, const void * b) {
+    int *x = (int *) a;
+    int *y = (int *) b;
+    return *x - *y;
+}
 
 Dictionary * init_rand_test_from_array(int * list,int size){
+    qsort(list, size, sizeof(int), compare_function);
     Dictionary * dict = newDictionary();
     insert(dict,list[0]);
     Element * current = dict->head;
