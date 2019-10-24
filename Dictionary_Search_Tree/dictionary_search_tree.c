@@ -191,7 +191,7 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
     }else if(!minB){
         return a;
     }
-    printf("Amin %d, Bmin %d\n", minA, minB); fflush(stdout);
+    //printf("Amin %d, Bmin %d\n", minA, minB); fflush(stdout);
     if(minA->value < minB->value){
         segmentedMergeWithAMin(a,b,c);
     }else

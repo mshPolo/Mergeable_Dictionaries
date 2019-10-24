@@ -294,6 +294,6 @@ int main() {
    //Dictionary * dict = init_rand_test_from_array(list,size);
     //printDictionary(dict);
     //inOrderTraversal(dict->root);
-    all_random_tests(10);
+    all_random_tests(100000);
     return 0;
 }

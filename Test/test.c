@@ -14,129 +14,6 @@ int compare_function2(const void * a, const void * b) {
     return *x - *y;
 }
 
-/*
-void init(Dictionary * a, int min, int max, int step){
-    int i;
-    for(i = min; i < max; i += step){
-        insert(a, i);
-    }
-}
-*/
-/*
-void splitMergeTest(Dictionary ** c, int k){
-    int i;
-    for(i = 0; i < 10; i++){
-        Dictionary * a;
-        Dictionary * b;
-        split(*c,k,&a,&b);
-        printDictionary(*c);
-        *c = merge(a,b);
-        printDictionary(*c);
-    }
-}
-*/
-/*
-void insertDeleteTest(Dictionary * a, int k){
-    int i;
-    for(i = 0; i < 100; i++){
-        //printDictionary(a);
-        insert(a, k);
-        //printDictionary(a);
-        delete(a, k);
-    }
-}
-*/
-/*
-void splitMergeTest(Dictionary ** c, int min, int max, int step){
-    int i;
-    for(i = min; i < max; i += step){
-        Dictionary * a;
-        Dictionary * b;
-        split(*c,i,&a,&b);
-        //printDictionary(*c);
-        *c = merge(a,b);
-        //printDictionary(*c);
-    }
-}
-
-void insertDeleteTest(Dictionary * a, int min, int max, int step){
-    int i;
-    for(i = min; i < max; i += step){
-        insert(a, i);
-        delete(a, i);
-    }
-}
-
-void searchTest(Dictionary * a, int min, int max, int step){
-    int i;
-    for(i = min; i < max; i += step){
-        //printf("%d\n", i);
-        //fflush(stdout);
-        search(a,i);
-    }
-}
-*/
-
-//Dictionary * 
-
-void allTests(){
-    //Dictionary * a = newDictionary(10);
-    /*
-    printf("1\n");
-    printDictionary(a);
-    fflush(stdout);
-    init(a);
-    printf("2\n");
-    printDictionary(a);
-    fflush(stdout);
-    insertDeleteTest(a, 4201);
-    printf("3\n");
-    printDictionary(a);
-    fflush(stdout);
-    splitMergeTest(&a, 4201);
-    printf("4\n");
-    printDictionary(a);
-    fflush(stdout);
-    searchTest(a, 1, 10000000, 1000);
-    printf("5\n");
-    printDictionary(a);
-    fflush(stdout);
-    */
-   /*
-    init(a, 0, 10000000, 10);
-    insertDeleteTest(a, 1, 10000001, 100000);
-    splitMergeTest(&a, 1, 10000001, 100000);
-    searchTest(a, 1, 10000001, 100000);
-    //printDictionary(a);
-    */
-}
-
-
-
-//void insert_test_rand(Dictionary ** c){
-// Dictionary ** init_rand_test(int size, int amount){
-//     Dictionary ** dictionaries = (Dictionary **) malloc(size * sizeof(Dictionary *));
-//     int i;
-//     for(i = 0; i < amount; i++){
-//         dictionaries[i] = newDictionary();
-//         int k;
-//         int seed = 420 * 101 * i ; 
-//         srand(seed);
-//         for(k = 0; k < size; k++){
-//             int j = rand();
-//             /*
-//             if(k == 71){
-//                 inOrderTraversal(dictionaries[i]->root);
-//                 printf("\n%d ", j);
-//             }
-//             */
-//             insert(dictionaries[i],j);
-//         }
-//     }
-//     return dictionaries; 
-// }
-
-
 void insert_rand_test(Dictionary ** dictionaries, int amount){
     int i = 0;
     int k;
@@ -150,9 +27,10 @@ void delete_rand_test(Dictionary ** dictionaries, int amount){
     int seed = 420 * 101; 
     int i = 0;
     int k;
+    srand(seed);
     for(k = 0; k < amount; k++){
         int j = rand();
-        insert(dictionaries[i],j);
+        delete(dictionaries[i],j);
     }
 }
 
@@ -307,40 +185,44 @@ void all_random_tests(int size){
     int amount = 1;
     double time_spent;
 
-    // //Insert
-    // amount = 1000;
-    // begin = clock();
-    // insert_rand_test(dictionaries,amount);
-    // end = clock();
-    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    // printf("Time spent on insert:\t %8.8f, time per insert:\t %8.8f\n", time_spent, time_spent/amount);
+    //Insert
+    amount = 1000;
+    begin = clock();
+    insert_rand_test(dictionaries,amount);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time spent on insert:\t %8.8f, time per insert:\t %8.8f\n", time_spent, time_spent/amount);
+    fflush(stdout);
 
-    // //Merge
-    // dictionaries = init_rand_test(size,number); 
-    // //printf("1234"); fflush(stdout);
-    // begin = clock();
-    // merge_rand_test(dictionaries,number);
-    // end = clock();
-    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    // printf("Time spent on merge:\t %8.8f, time per merge:\t %8.8f\n", time_spent, time_spent/(number/2));
+    //Merge
+    dictionaries = init_rand_test(size,number); 
+    //printf("1234"); fflush(stdout);
+    begin = clock();
+    merge_rand_test(dictionaries,number);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time spent on merge:\t %8.8f, time per merge:\t %8.8f\n", time_spent, time_spent/(number/2));
+    fflush(stdout);
 
-    // //Split
-    // dictionaries = init_rand_test(size,number); 
-    // amount = number;
-    // begin = clock();
-    // split_rand_test(dictionaries,amount);
-    // end = clock();
-    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    // printf("Time spent on split:\t %8.8f, time per split:\t %8.8f\n", time_spent, time_spent/amount);
+    //Split
+    dictionaries = init_rand_test(size,number); 
+    amount = number;
+    begin = clock();
+    split_rand_test(dictionaries,amount);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time spent on split:\t %8.8f, time per split:\t %8.8f\n", time_spent, time_spent/amount);
+    fflush(stdout);
 
-    // //Delete
-    // dictionaries = init_rand_test(size,1); 
-    // amount = 1000;
-    // begin = clock();
-    // delete_rand_test(dictionaries,amount);
-    // end = clock();
-    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    // printf("Time spent on delete:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
+    //Delete
+    dictionaries = init_rand_test(size,1); 
+    amount = 1000;
+    begin = clock();
+    delete_rand_test(dictionaries,amount);
+    end = clock();
+    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time spent on delete:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
+    fflush(stdout);
 
     // size = 100000;
     // dictionaries = init_rand_test(size,16); 
@@ -351,35 +233,35 @@ void all_random_tests(int size){
     // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     // printf("Time spent on Merge_test_1:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
 
-    size = 100000;
-    dictionaries = init_rand_test(size,16); 
-    amount = 1000;
-    begin = clock();
-    merge_test_1(dictionaries);
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Time spent on Merge_test_1:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
-    fflush(stdout);
+    // size = 100000;
+    // dictionaries = init_rand_test(size,16); 
+    // amount = 1000;
+    // begin = clock();
+    // merge_test_1(dictionaries);
+    // end = clock();
+    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    // printf("Time spent on Merge_test_1:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
+    // fflush(stdout);
 
-    size = 1000000;
-    dictionaries = init_rand_test(size,1); 
-    amount = 1000;
-    begin = clock();
-    split_merge_test_1(dictionaries);
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Time spent on Split_Merge_test_1:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
-    fflush(stdout);
+    // size = 1000000;
+    // dictionaries = init_rand_test(size,1); 
+    // amount = 1000;
+    // begin = clock();
+    // split_merge_test_1(dictionaries);
+    // end = clock();
+    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    // printf("Time spent on Split_Merge_test_1:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
+    // fflush(stdout);
 
-    size = 1000000;
-    dictionaries = init_rand_test(size,1); 
-    amount = 1000;
-    begin = clock();
-    split_merge_test_2(dictionaries);
-    end = clock();
-    time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("Time spent on Split_Merge_test_1:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
-    fflush(stdout);
+    // size = 1000000;
+    // dictionaries = init_rand_test(size,1); 
+    // amount = 1000;
+    // begin = clock();
+    // split_merge_test_2(dictionaries);
+    // end = clock();
+    // time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    // printf("Time spent on Split_Merge_test_1:\t %8.8f, time per delete:\t %8.8f\n", time_spent, time_spent/amount);
+    // fflush(stdout);
 
     return;
 }
