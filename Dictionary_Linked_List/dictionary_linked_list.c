@@ -120,10 +120,9 @@ Dictionary * merge(Dictionary * a, Dictionary * b){
 }
 
 void split(Dictionary * c, int value, Dictionary ** a, Dictionary ** b){
-    if (c == NULL) return;
     (*a) = newDictionary();
     (*b) = newDictionary();
-    //(*a)->head = c->head;
+    if (c == NULL) return;
     Element * current = c->head;
     int count = 0;
     if(c->head == NULL){
@@ -176,25 +175,6 @@ void printDictionary(Dictionary * dictionary){
     printf("\n");
 }
 
-//TODO: FIX
-// Dictionary ** init_rand_test(int size, int amount){
-//     Dictionary ** dictionaries = (Dictionary **) malloc(amount * sizeof(Dictionary *));
-//     int i;
-//     for(i = 0; i < amount; i++){
-//         dictionaries[i] = newDictionary();
-//         int k;
-//         int seed = 420 * 101 * i ; 
-//         srand(seed);
-//         dictionaries[i]->head = newElement(rand());
-//         Element * current = dictionaries[i]->head;
-//         for(k = 0; k < size; k++){
-//             int j = rand();
-//             current->next = newElement(j);
-//             current = current->next;
-//         }
-//     }
-//     return dictionaries; 
-// }
 int compare_function(const void * a, const void * b) {
     int *x = (int *) a;
     int *y = (int *) b;

@@ -13,7 +13,6 @@ typedef struct {
 }Dictionary;
 
 void freeDictionary(Dictionary * a);
-//Dictionary * newDictionary(int size);
 int search(Dictionary * a, int element);
 int findPredecessorIndex(Dictionary * a, int element);
 void increaseSize(Dictionary * a);
@@ -22,10 +21,6 @@ void insert(Dictionary * a, int element);
 void delete(Dictionary * a, int element);
 Dictionary * merge(Dictionary * a, Dictionary * b);
 void split(Dictionary * c, int element, Dictionary ** a, Dictionary ** b);
-//INSERT
-//void delete(Dictionary * a, int element);
-//Dictionary * mergeDictionary(Dictionary * a, Dictionary * b);
-//void splitDictionary(Dictionary * c, int element, Dictionary ** a, Dictionary * b);
 
 Dictionary * newDictionary() {
     int size = 10;
@@ -52,20 +47,11 @@ int search(Dictionary * a, int element){
 
 void insert(Dictionary * a, int element){
     if(a->used >= a->size) increaseSize(a);
-    //TODO: should not insert duplicates
-    //TODO: use binary search
-    //int i = 0;
-    /*
-    while(i < a->used && a->list[i] < element) i++;
-    int temp1  = a->list[i];
-    a->list[i++] = element;
-    */
     int i;
     if(a->used == 0 || a->list[0] > element){
         i = 0;
     }else{
         i = findPredecessorIndex(a,element);
-        //printf("%d\n", i);
         if(a->list[i] == element) return;
         i++;
     }
@@ -79,14 +65,7 @@ void insert(Dictionary * a, int element){
         temp2 = a->list[i];
         a->list[i] = temp1;
         i++;
-        /*
-         int current = a->list[i];
-         a->list[i] = temp1;
-         temp1 = current;
-         i++;
-         */
     }
-    //a->used++;
 }
 
 void delete(Dictionary * a, int element){
@@ -153,9 +132,6 @@ void split(Dictionary * c, int element, Dictionary ** a, Dictionary ** b){
 int findPredecessorIndex(Dictionary * a, int element){
     int left = 0;
     int right = a->used-1;
-    //int k = 0;
-    //printf("before while\n"); 
-    //fflush(stdout);
     while(left < right){
             int middle = (left + right)/2;
         if(a->list[middle] < element){
@@ -164,8 +140,6 @@ int findPredecessorIndex(Dictionary * a, int element){
             right = middle;
         }
     }
-    //printf("after while\n"); 
-    //fflush(stdout);
     if(a->list[left] > element && left > 0){
         return left-1;
     }else{
@@ -214,22 +188,6 @@ void printDictionary(Dictionary * list){
     fflush(stdout);
 }
 
-//TODO: FIX
-// Dictionary ** init_rand_test(int size, int amount){
-//     Dictionary ** dictionaries = (Dictionary **) malloc(amount * sizeof(Dictionary *));
-//     int i;
-//     for(i = 0; i < amount; i++){
-//         dictionaries[i] = newDictionaryWithSize(size);
-//         int k;
-//         int seed = 420 * 101 * i ; 
-//         srand(seed);
-//         for(k = 0; k < size; k++){
-//             int j = rand();
-//             dictionaries[i]->list[k] = j;
-//         }
-//     }
-//     return dictionaries; 
-// }
 int compare_function(const void * a, const void * b) {
     int *x = (int *) a;
     int *y = (int *) b;
